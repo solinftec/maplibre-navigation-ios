@@ -1,0 +1,72 @@
+PODS:
+  - iOSSnapshotTestCase (8.0.0):
+    - iOSSnapshotTestCase/SwiftSupport (= 8.0.0)
+  - iOSSnapshotTestCase/Core (8.0.0)
+  - iOSSnapshotTestCase/SwiftSupport (8.0.0):
+    - iOSSnapshotTestCase/Core
+  - MapboxDirections.swift (0.23.0):
+    - Polyline (~> 4.2)
+  - MapboxGeocoder.swift (0.15.0)
+  - MapboxSpeech (2.1.1)
+  - Nimble (12.3.0)
+  - Polyline (4.2.1)
+  - Quick (6.1.0)
+  - Solar (3.0.1)
+  - Turf (0.2.1)
+
+DEPENDENCIES:
+  - iOSSnapshotTestCase (= 8.0.0)
+  - MapboxDirections.swift (from `https://github.com/flitsmeister/Mapbox-directions-swift`, branch `main`)
+  - MapboxGeocoder.swift (= 0.15.0)
+  - MapboxSpeech (= 2.1.1)
+  - Nimble (= 12.3.0)
+  - Polyline (~> 4.2)
+  - Quick (= 6.1.0)
+  - Solar (from `https://github.com/ceeK/Solar`, tag `3.0.1`)
+  - Turf (from `https://github.com/flitsmeister/turf-swift`, branch `main`)
+
+SPEC REPOS:
+  trunk:
+    - iOSSnapshotTestCase
+    - MapboxGeocoder.swift
+    - MapboxSpeech
+    - Nimble
+    - Polyline
+    - Quick
+
+EXTERNAL SOURCES:
+  MapboxDirections.swift:
+    :branch: main
+    :git: https://github.com/flitsmeister/Mapbox-directions-swift
+  Solar:
+    :git: https://github.com/ceeK/Solar
+    :tag: 3.0.1
+  Turf:
+    :branch: main
+    :git: https://github.com/flitsmeister/turf-swift
+
+CHECKOUT OPTIONS:
+  MapboxDirections.swift:
+    :commit: 03145006b595867a45a9a83d0c0901ad2a62fd99
+    :git: https://github.com/flitsmeister/Mapbox-directions-swift
+  Solar:
+    :git: https://github.com/ceeK/Solar
+    :tag: 3.0.1
+  Turf:
+    :commit: b05b4658d1b48eac4127a0d9ebbb5a6f965a8251
+    :git: https://github.com/flitsmeister/turf-swift
+
+SPEC CHECKSUMS:
+  iOSSnapshotTestCase: a670511f9ee3829c2b9c23e6e68f315fd7b6790f
+  MapboxDirections.swift: df55dc4850ed06169385320f5727606976af0ed6
+  MapboxGeocoder.swift: 730782e5f4324b7283a0f6c740c180f3086158e2
+  MapboxSpeech: cd25ef99c3a3d2e0da72620ff558276ea5991a77
+  Nimble: f8a8219d16f176429b951e8f7e72df5c23ceddc0
+  Polyline: 0e9890790292741c8186201a536b6bb6a78d02dd
+  Quick: 6676ffb409bf04abba2ff23902af2407bfc6ac90
+  Solar: dd75ef18914d1cddbc907ff99f2852e3802a8c09
+  Turf: 9763a5a2d7da05dfdd5ed56aeb0414b291b0fee1
+
+PODFILE CHECKSUM: 8c7a3ccf723050a9a91d45e68e56b837ba69aef9
+
+COCOAPODS: 1.13.0
