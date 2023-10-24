@@ -24,11 +24,11 @@ Pod::Spec.new do |s|
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.ios.deployment_target = "9.0"
+  s.ios.deployment_target = "14.1"
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.source = { :git => "https://github.com/mapbox/mapbox-navigation-ios.git", :tag => "v#{s.version.to_s}" }
+  s.source = { :git => "https://github.com/solinftec/mapbox-navigation-ios.git", :tag => "v#{s.version.to_s}" }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
@@ -44,14 +44,19 @@ Pod::Spec.new do |s|
   s.module_name = "MapboxNavigation"
 
   s.dependency "MapboxCoreNavigation", "#{s.version.to_s}"
-  s.dependency "Mapbox-iOS-SDK", "~> 4.3"
-  s.dependency "Solar", "~> 2.1"
-  s.dependency "MapboxSpeech", "~> 0.0.1"
+  s.dependency "Nimble", "12.3.0"
+  s.dependency "Quick", "6.1.0"
+  s.dependency "Solar", "3.0.1"
+  s.dependency "MapboxDirections.swift", "~> 0.23.0"
+  s.dependency "MapboxGeocoder.swift", "0.15.0"
+  s.dependency "MapboxSpeech", "2.1.1"
+  s.dependency "Polyline", "~> 4.2"
+  s.dependency "iOSSnapshotTestCase", "8.0.0"
 
   # `swift_version` was introduced in CocoaPods 1.4.0. Without this check, if a user were to
   # directly specify this podspec while using <1.4.0, ruby would throw an unknown method error.
-  if s.respond_to?(:swift_version)
-    s.swift_version = "4.0"
-  end
+#   if s.respond_to?(:swift_version)
+#     s.swift_version = "4.0"
+#   end
 
 end
