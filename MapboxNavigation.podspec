@@ -47,7 +47,7 @@ Pod::Spec.new do |s|
   s.dependency "Nimble", "12.3.0"
   s.dependency "Quick", "6.1.0"
   s.dependency "Solar", "3.0.1"
-  s.dependency "MapboxDirections.swift", "~> 0.23.0"
+  s.dependency "MapboxDirections.swift", "~> 0.23.1"
   s.dependency "MapboxGeocoder.swift", "0.15.0"
   s.dependency "MapboxSpeech", "2.1.1"
   s.dependency "Polyline", "~> 4.2"

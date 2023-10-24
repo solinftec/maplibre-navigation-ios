@@ -5,8 +5,8 @@ $minVersion = '14.1'
 platform :ios, $minVersion
 
 def shared_pods
-  pod 'MapboxDirections.swift', :git => 'https://github.com/flitsmeister/Mapbox-directions-swift', :branch => 'main'
-  pod 'Turf', :git => 'https://github.com/flitsmeister/turf-swift', :branch => 'main'
+  pod 'MapboxDirections.swift', :git => 'https://github.com/flitsmeister/Mapbox-directions-swift', :tag => 'v0.23.1'
+  pod 'Turf', :git => 'https://github.com/flitsmeister/turf-swift', :tag => 'v0.2.2'
   pod 'Polyline', '~> 4.2'
 end
 
