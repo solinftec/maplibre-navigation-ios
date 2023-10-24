@@ -16,14 +16,14 @@ PODS:
 
 DEPENDENCIES:
   - iOSSnapshotTestCase (= 8.0.0)
-  - MapboxDirections.swift (from `https://github.com/flitsmeister/Mapbox-directions-swift`, branch `main`)
+  - MapboxDirections.swift (from `https://github.com/flitsmeister/Mapbox-directions-swift`, tag `v0.23.1`)
   - MapboxGeocoder.swift (= 0.15.0)
   - MapboxSpeech (= 2.1.1)
   - Nimble (= 12.3.0)
   - Polyline (~> 4.2)
   - Quick (= 6.1.0)
   - Solar (from `https://github.com/ceeK/Solar`, tag `3.0.1`)
-  - Turf (from `https://github.com/flitsmeister/turf-swift`, branch `main`)
+  - Turf (from `https://github.com/flitsmeister/turf-swift`, tag `v0.2.2`)
 
 SPEC REPOS:
   trunk:
@@ -36,25 +36,25 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   MapboxDirections.swift:
-    :branch: main
     :git: https://github.com/flitsmeister/Mapbox-directions-swift
+    :tag: v0.23.1
   Solar:
     :git: https://github.com/ceeK/Solar
     :tag: 3.0.1
   Turf:
-    :branch: main
     :git: https://github.com/flitsmeister/turf-swift
+    :tag: v0.2.2
 
 CHECKOUT OPTIONS:
   MapboxDirections.swift:
-    :commit: 03145006b595867a45a9a83d0c0901ad2a62fd99
     :git: https://github.com/flitsmeister/Mapbox-directions-swift
+    :tag: v0.23.1
   Solar:
     :git: https://github.com/ceeK/Solar
     :tag: 3.0.1
   Turf:
-    :commit: b05b4658d1b48eac4127a0d9ebbb5a6f965a8251
     :git: https://github.com/flitsmeister/turf-swift
+    :tag: v0.2.2
 
 SPEC CHECKSUMS:
   iOSSnapshotTestCase: a670511f9ee3829c2b9c23e6e68f315fd7b6790f
@@ -67,6 +67,6 @@ SPEC CHECKSUMS:
   Solar: dd75ef18914d1cddbc907ff99f2852e3802a8c09
   Turf: 9763a5a2d7da05dfdd5ed56aeb0414b291b0fee1
 
-PODFILE CHECKSUM: 8c7a3ccf723050a9a91d45e68e56b837ba69aef9
+PODFILE CHECKSUM: 1ae50b770be1f5f4b1935e4a01c21a569d1509da
 
 COCOAPODS: 1.13.0
