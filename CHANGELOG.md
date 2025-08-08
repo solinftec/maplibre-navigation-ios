@@ -22,6 +22,7 @@
 * Fix: crash in EndOfRouteViewController and restore its presentation by in https://github.com/maplibre/maplibre-navigation-ios/pull/71
 * Fix: retain cycles in RouteMapViewController
 * Fix: hide lanesView on navigation start
+* Fix: avoid iOS 26 name conflict
 * Fix: add missing `frame` argument to `NavigationMapView` initializer
 
 ## 3.0.0 (Jun 15, 2024)
