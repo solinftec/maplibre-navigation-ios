@@ -368,18 +368,17 @@ open class RouteLegProgress: NSObject {
 
         for (currentStepIndex, step) in remainingSteps.enumerated() {
             guard let coords = step.coordinates else { continue }
-            guard let closestCoordOnStep = LineString(coords).closestCoordinate(to: coordinate) else { continue }
+            guard let closestCoordOnStep = Polyline(coords).closestCoordinate(to: coordinate) else { continue }
             let foundIndex = currentStepIndex + self.stepIndex
 
-            let distanceFromLine = closestCoordOnStep.coordinate.distance(to: coordinate)
             // First time around, currentClosest will be `nil`.
             guard let currentClosestDistance = currentClosest?.distance else {
-                currentClosest = (index: foundIndex, distance: distanceFromLine)
+                currentClosest = (index: foundIndex, distance: closestCoordOnStep.distance)
                 continue
             }
 
-            if distanceFromLine < currentClosestDistance {
-                currentClosest = (index: foundIndex, distance: distanceFromLine)
+            if closestCoordOnStep.distance < currentClosestDistance {
+                currentClosest = (index: foundIndex, distance: closestCoordOnStep.distance)
             }
         }
 
