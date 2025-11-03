@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/maplibre/maplibre-gl-native-distribution.git",
       "state" : {
-        "revision" : "3df876f8f2c6c591b0f66a29b3e216020afc885c",
-        "version" : "6.0.0"
+        "revision" : "52421bf02a8b47a179ed11553e80aa400913e55e",
+        "version" : "6.18.1"
       }
     },
     {
@@ -39,10 +39,10 @@
     {
       "identity" : "swiftformat",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nicklockwood/SwiftFormat",
+      "location" : "https://github.com/nicklockwood/SwiftFormat.git",
       "state" : {
-        "revision" : "9df3b01f477163b33d5e63c5e2e5b9f946a49c56",
-        "version" : "0.53.6"
+        "revision" : "b83a8f132ff5430f3b6ff7d912baa407caea9e29",
+        "version" : "0.57.2"
       }
     },
     {

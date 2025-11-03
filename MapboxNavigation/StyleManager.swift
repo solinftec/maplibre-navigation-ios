@@ -45,7 +45,7 @@ open class StyleManager: NSObject {
             self.resetTimeOfDayTimer()
         }
     }
-   
+
     /// Useful for testing
     var stubbedDate: Date?
 
@@ -118,11 +118,11 @@ open class StyleManager: NSObject {
         
         perform(#selector(self.timeOfDayChanged), with: nil, afterDelay: interval + 1)
     }
-   
+
     @objc func preferredContentSizeChanged(_ notification: Notification) {
         self.ensureAppropriateStyle()
     }
-  
+
     /// Useful when you don't want the time of day to change the style. For example if you're in a tunnel.
     @objc func cancelTimeOfDayTimer() {
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.timeOfDayChanged), object: nil)
@@ -180,7 +180,7 @@ open class StyleManager: NSObject {
     }
     
     func refreshAppearance() {
-        for window in UIApplication.shared.windows {
+        for window in UIApplication.shared.applicationWindows {
             for view in window.subviews {
                 view.removeFromSuperview()
                 window.addSubview(view)
@@ -188,6 +188,15 @@ open class StyleManager: NSObject {
         }
         
         self.delegate?.styleManagerDidRefreshAppearance?(self)
+    }
+}
+
+extension UIApplication {
+    var applicationWindows: [UIWindow] {
+        windows.filter { window in
+            let className = String(describing: type(of: window))
+            return !className.contains("UITextEffectsWindow")
+        }
     }
 }
 
