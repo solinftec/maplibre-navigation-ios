@@ -57,8 +57,21 @@ extension SpokenInstruction {
 open class RouteVoiceController: NSObject, AVSpeechSynthesizerDelegate {
     lazy var speechSynth = AVSpeechSynthesizer()
     
+    /**
+     Serial queue where every `AVAudioSession` call runs. Those calls are synchronous and can block
+     while the audio system responds, so they must stay off the main thread. Being serial keeps
+     duck → speak → unduck in order.
+     */
     let audioQueue = DispatchQueue(label: Bundle.mapboxNavigation.bundleIdentifier! + ".audio")
-    
+
+    /**
+     Number of utterances requested through `speak(_:with:ignoreProgress:)` that were not handed to
+     the synthesizer yet (their session setup is still pending on `audioQueue`). Main thread only.
+     While it is greater than zero, a finishing utterance must not deactivate the session, or the
+     deactivation could run after the next utterance's setup and leave it without an active session.
+     */
+    private var pendingUtterances = 0
+
     /**
      If true, a noise indicating the user is going to be rerouted will play prior to rerouting.
      */
@@ -138,22 +151,48 @@ open class RouteVoiceController: NSObject, AVSpeechSynthesizerDelegate {
             return
         }
         
-        do {
-            try self.mixAudio()
-        } catch {
-            self.voiceControllerDelegate?.voiceController?(self, spokenInstructionsDidFailWith: error)
+        // `play()` also stays on `audioQueue`: the first play activates the audio session internally.
+        // `defer` keeps the old behavior of playing the sound even if the session setup fails.
+        // The player is read here, on the main thread, because `rerouteSoundPlayer` is a public `var`.
+        let player = self.rerouteSoundPlayer
+        self.configureAudioSession { [weak self] in
+            defer { player.play() }
+            try self?.mixAudio()
         }
-        self.rerouteSoundPlayer.play()
     }
-    
+
     @objc public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        do {
-            try self.unDuckAudio()
-        } catch {
-            self.voiceControllerDelegate?.voiceController?(self, spokenInstructionsDidFailWith: error)
+        // Another utterance is waiting for its session setup; deactivating now would race with it.
+        guard self.pendingUtterances == 0 else { return }
+
+        self.configureAudioSession { [weak self] in try self?.unDuckAudio() }
+    }
+
+    /**
+     Runs `configure` on `audioQueue` and then, on the main thread, `action`.
+
+     Errors thrown by `configure` are reported to `voiceControllerDelegate` on the main thread. As before,
+     `action` still runs after a failure, so the instruction or sound is attempted anyway.
+     */
+    private func configureAudioSession(_ configure: @escaping () throws -> Void, then action: (() -> Void)? = nil) {
+        self.audioQueue.async { [weak self] in
+            var sessionError: Error?
+            do {
+                try configure()
+            } catch {
+                sessionError = error
+            }
+
+            DispatchQueue.main.async {
+                guard let self else { return }
+                if let sessionError {
+                    self.voiceControllerDelegate?.voiceController?(self, spokenInstructionsDidFailWith: sessionError)
+                }
+                action?()
+            }
         }
     }
-    
+
     func duckAudio() throws {
         let categoryOptions: AVAudioSession.CategoryOptions = [.duckOthers, .interruptSpokenAudioAndMixWithOthers]
         try AVAudioSession.sharedInstance().setMode(AVAudioSession.Mode.spokenAudio)
@@ -198,12 +237,6 @@ open class RouteVoiceController: NSObject, AVSpeechSynthesizerDelegate {
             self.voiceControllerDelegate?.voiceController?(self, didInterrupt: lastSpokenInstruction, with: instruction)
         }
         
-        do {
-            try self.duckAudio()
-        } catch {
-            self.voiceControllerDelegate?.voiceController?(self, spokenInstructionsDidFailWith: error)
-        }
-        
         let modifiedInstruction = self.voiceControllerDelegate?.voiceController?(self, willSpeak: instruction, routeProgress: self.routeProgress) ?? instruction
 
         let utterance: AVSpeechUtterance
@@ -222,8 +255,21 @@ open class RouteVoiceController: NSObject, AVSpeechSynthesizerDelegate {
             // Only localized languages will have a proper fallback voice
             utterance.voice = AVSpeechSynthesisVoice(language: locale?.identifier ?? Locale.preferredLocalLanguageCountryCode)
         }
-        
-        self.speechSynth.speak(utterance)
+
+        // Build the utterance here on the main thread; only the session setup goes to `audioQueue`.
+        self.pendingUtterances += 1
+        self.configureAudioSession({ [weak self] in try self?.duckAudio() }, then: { [weak self] in
+            guard let self else { return }
+            self.pendingUtterances -= 1
+            // Muted while the session was being set up: don't speak, and release the ducking if nothing else will.
+            guard !NavigationSettings.shared.voiceMuted else {
+                if self.pendingUtterances == 0, !self.speechSynth.isSpeaking {
+                    self.configureAudioSession { [weak self] in try self?.unDuckAudio() }
+                }
+                return
+            }
+            self.speechSynth.speak(utterance)
+        })
     }
 }
 
