@@ -45,7 +45,7 @@ let package = Package(
             ],
             path: "MapboxNavigation",
             resources: [
-                .copy("Resources/Assets.xcassets")
+                .process("Resources/Assets.xcassets")
             ]
         ),
         .target(
